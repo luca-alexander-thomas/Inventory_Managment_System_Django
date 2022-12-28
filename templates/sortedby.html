@@ -1,0 +1,54 @@
+﻿{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Inventory Managment - {{ type }}</title>
+    <link rel="stylesheet" href="{% static 'style.css' %}">
+    <title>Document</title>
+</head>
+    <header>
+        <h1>Inventory Managment</h1> <h2>{{ type }}</h2>
+        {% if user.is_authenticated %}
+    {% include 'header.html' %}
+{% endif %}
+    </header>
+    <div class="sidebar">
+        {% include "sidebar.html" %}
+    </div>
+<body>
+    <script>
+        var close = document.getElementsByClassName("closebtn");
+            var i;
+
+            for (i = 0; i < close.length; i++) {
+                close[i].onclick = function () {
+                    var div = this.parentElement;
+                    div.style.opacity = "0";
+                    setTimeout(function () { div.style.display = "none"; }, 600);
+                }
+            }
+    </script>
+
+    <div class="main">
+        {% if user.is_authenticated %}
+        <div class="detailGrid">
+            <div class="Grid-Item-desc"><p class="hide_text_gridbg">Control</p></div>
+            <div class="Grid-Item-desc"><p id="vendor">{{ title }}</p></div>
+            {% for item in all_detail_items %}
+            <div class="Grid-Item"><a class="btn_view_a" href="/{{ layout }}/{{ item }}/"><img src="{% static 'eye.svg' %}"></a></div>
+            <!--<div class="Grid-Item"><button class="btn_view" onclick="window.location.href = "/{{ item }}/"};"><img src="{% static 'eye.svg' %}"></button></div>-->
+            <div class="Grid-Item"><p>{{ item }}</p></div>
+            {% endfor %}
+
+        </div>
+        {% else %}
+        
+        {% include "login_include.html" %}
+        {% endif %}
+
+    </div>
+</body>
+</html>

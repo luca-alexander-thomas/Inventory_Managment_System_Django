@@ -1,0 +1,100 @@
+{% extends 'base.html' %}
+{% load static %}
+<html>
+
+
+
+{% block content %}
+        
+        <button class="addbutton" onclick="window.location.href='/add_item';"> <!-- window.location.href='/add_item'; -->
+            +
+        </button>
+        <div class="mainGrid">
+                <div class="Grid-Item-desc"><p class="hide_text_gridbg">Control</p></div>
+                <div class="Grid-Item-desc"><p id="id">Id</p></div>
+                <div class="Grid-Item-desc"><p id="name">Name</p></div>
+                <div class="Grid-Item-desc"><p id="group">Group</p></div>
+                <div class="Grid-Item-desc"><p id="vendor">Vendor</p></div>
+                <div class="Grid-Item-desc"><p id="usecase">Usecase</p></div>
+                <div class="Grid-Item-desc"><p id="location">Location</p></div>
+                <div class="Grid-Item-desc"><p id="created_at">Created at</p></div>
+
+
+        
+
+                {% for row in all_items %}
+                    <div class="Grid-Item">
+                        <button class="btn_delete" onclick="ConfirmDelete({{ row.id }})"><img src="{% static 'trash.svg' %}"></button>
+                        <button class="btn_edit" onclick="edit_item({{ row.id }})"><img src="{% static 'pencil.svg' %}"></button>
+                        <button class="btn_view" onclick="view_item({{ row.id }})"><img src="{% static 'eye.svg' %}"></button>
+                    </div>
+                    <div class="Grid-Item"><p>{{ row.id }}</p></div>
+                    <div class="Grid-Item"><p>{{ row.name }}</p></div>
+                    <div class="Grid-Item"><p>{{ row.group }}</p></div>
+                    <div class="Grid-Item"><p>{{ row.vendor }}</p></div>
+                    <div class="Grid-Item"><p>{{ row.usecase }}</p></div>
+                    <div class="Grid-Item"><p>{{ row.location }}</p></div>
+                    <div class="Grid-Item"><p>{{ row.created_at }}</p></div>
+                {% endfor %}
+
+        </div>
+        <div class="overlay" id="ConfirmDeleteBox" hidden>
+            <div class="confirm-box-delete">
+                <div onclick="closeConfirmBox('ConfirmDeleteBox')" class="close">&#10006;</div>
+                <h2 id="confirmation">Confirmation</h2>
+                <p id="are_you_sure">Are you sure to delete this Item?</p><br>
+                <button id="yes" class="btn_yes" onclick="delete_item(id_var)">Yes</button>
+                <button id="no" class="btn_no" onclick="closeConfirmBox('ConfirmDeleteBox')">No</button>
+            </div> 
+        </div>
+
+        <script>
+            var close = document.getElementsByClassName("closebtn");
+                var i;
+
+                for (i = 0; i < close.length; i++) {
+                    close[i].onclick = function () {
+                        var div = this.parentElement;
+                        div.style.opacity = "0";
+                        setTimeout(function () { div.style.display = "none"; }, 600);
+                    }
+                }
+            function delete_item(id) {
+                let itemName = 'delete_item';
+                let token = '{{ csrf_token }}';
+                let formData = new FormData();
+                formData.append('id_to_delete', id);
+                formData.append('form_type', itemName);
+                formData.append('csrfmiddlewaretoken', token);
+                fetch('/', {
+                    method: 'POST',
+                    body: formData
+                }).then(() => {
+                    window.location.reload();
+                });
+            }
+            function view_item(id) {
+                location.href = '/view_item/' + id;
+            }
+            function edit_item(id) {
+                location.href = '/edit_item/' + id;
+            }
+            function add_item() {
+                window.location.href = '/add_item';
+            }
+            let id_var = 0;
+            function ConfirmDelete(id) {
+                id_var = id;
+                showConfirmBox("ConfirmDeleteBox");
+            }
+            function showConfirmBox(name) {
+                document.getElementById(name).hidden = false;
+            }
+            function closeConfirmBox(name) {
+                document.getElementById(name).hidden = true;
+            }
+
+        </script>
+
+{% endblock content %}
+</html>

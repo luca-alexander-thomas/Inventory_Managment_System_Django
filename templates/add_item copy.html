@@ -1,0 +1,163 @@
+﻿{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="shortcut icon" type="image/png" href="{% static 'favicon.ico' %}" />
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Inventory Managment - Add Item</title>
+    <link rel="stylesheet" href="{% static 'style.css' %}">
+   <!-- <style>
+        :root {
+            --bg: #fff;
+            --text: #000000;
+            --sidebar: #38b04e;
+            --topbar: #4a79b4;
+            --gridbg: #e4e0e0;
+            --gridborder: #00000069;
+            --inputbg: #f1f1f1;
+        }
+
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --bg: rgb(26, 26, 26);
+                --text: #ffffff;
+                --sidebar: #38b04ea6;
+                --topbar: #4a7ab4a9;
+                --gridbg: #292929;
+                --gridborder: #ffffff69;
+                --inputbg: #353535;
+            }
+        }
+        .Form-Item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            margin-top: 30px;
+        }
+        .Form-Item input[type=submit] {
+            background-color: #4CAF50;
+            border: none;
+            border-radius: 5%;
+            cursor: pointer;
+            color: white;
+            padding: 10px 20px;
+            margin: 8px 0;
+
+
+        }
+        .Form-Item input[type=submit]:hover {
+            background-color: #45a049;
+        }
+        .Form-Item input[type=text], input[type=number] {
+            width: 100%;
+            padding: 9px 20px;
+            border-radius: 2%;
+            border: none;
+            background-color: var(--inputbg);
+            color: var(--text); 
+
+        }
+        .Form-Item input[type=textarea] {
+            width: 100%;
+            padding: 20px 20px;
+            border-radius: 2%;
+            border: none;
+            background-color: var(--inputbg);
+            color: var(--text); 
+
+        }
+        .Form-Item input[type=text]:focus, input[type=number]:focus, input[type=textarea]:focus {
+            background-color: var(--inputbg);
+            outline: 3px solid var(--sidebar);
+        }
+        
+        input[type=file]::file-selector-button {
+            margin-right: 20px;
+            border: none;
+            background: var(--sidebar);
+            padding: 10px 20px;
+            border-radius: 10px;
+            color: #fff;
+            cursor: pointer;
+            transition: background .2s ease-in-out;
+        }
+
+        input[type=file]::file-selector-button:hover {
+            background: var(--topbar);
+        }
+    </style> -->
+</head>
+<body>
+
+        <header>
+            <h1>Inventory Managment</h1> <h2>Add Item</h2>
+            {% if user.is_authenticated %}
+            {% include 'header.html' %}
+            {% endif %}
+        </header>
+        <div class="sidebar">
+            {% include "sidebar.html" %}
+        </div>
+
+        <script>
+            var close = document.getElementsByClassName("closebtn");
+                var i;
+
+                for (i = 0; i < close.length; i++) {
+                    close[i].onclick = function () {
+                        var div = this.parentElement;
+                        div.style.opacity = "0";
+                        setTimeout(function () { div.style.display = "none"; }, 600);
+                    }
+                }
+        </script>
+
+    <div class="main">
+        {% if user.is_authenticated %}
+        <div class="main_items">
+            <div class="Fields">
+                <form action="/" method="post" enctype="multipart/form-data">
+                    <div class="Form-Item">
+                        <label for="form_name">Name:</label><br>
+                        <input type="text" id="form_name" name="form_name"><br>
+                    </div><div class="Form-Item">
+                        <label for="form_group">Group:</label><br>
+                        <input type="text" id="form_group" name="form_group"><br>
+                    </div><div class="Form-Item">
+                        <label for="form_vendor">Vendor:</label><br>
+                        <input type="text" id="form_vendor" name="form_vendor"><br>
+                    </div><div class="Form-Item">
+                        <label for="form_usecase">Usecase:</label><br>
+                        <input type="text" id="form_usecase" name="form_usecase"><br>
+                     </div><div class="Form-Item">
+                        <label for="form_location">Location:</label><br>
+                        <input type="text" id="form_location" name="form_location">
+                    </div><div class="Form-Item">
+                        <label for="form_describtion">Describtion:</label><br>
+                        <input type="textarea" name="form_describtion" id="form_describtion">
+                    </div><div class="Form-Item">
+                        <label for="form_picture">Upload Image:</label>
+                        <input type="file" name="form_picture" id="form_picture">
+                    </div><div class="Form-Item">
+                        <input type="submit" value="Save">
+                    </div>
+                    <input type="hidden" name="csrfmiddlewaretoken" id="csrfmiddlewaretoken" value="{{ csrf_token }}">
+                    <input type="hidden" name="form_type" id="form_type" value="additem">
+
+
+                </form>
+            </div>
+        </div>
+
+        {% else %}	
+        {% include "login_include.html" %}
+
+        {% endif %}
+
+
+    </div>
+</body>
+</html>

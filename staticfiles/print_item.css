@@ -1,0 +1,50 @@
+﻿@media print {
+    header {
+        display: none;
+    }
+
+    .sidebar {
+        display: none;
+    }
+
+    .main {
+        background-color: white;
+        width: 100%;
+        margin: 0;
+        padding: 0;
+    }
+
+    .Fields {
+        background-color: #fff;
+    }
+
+    .Barcode {
+        background-color: #fff;
+        position: absolute;
+        bottom: 50%;
+        right: 15%;
+    }
+
+    .Fields p {
+        position: absolute;
+        bottom: 100%;
+        left: 1%;
+        font-weight: 900;
+    }
+
+    .f_type {
+        font-size: 12pt;
+    }
+
+    .f_value {
+        font-size: 11pt;
+    }
+
+    .print {
+        display: none;
+    }
+    .itm_image {
+        background-color: #fff;
+    }
+
+}

@@ -1,0 +1,28 @@
+﻿<html>
+    <ul class="sidebar-list">
+        {% if user.is_authenticated %}
+        <li><a href="/">Home</a></li>
+        <li><a href="/vendors" id="vendor">Vendors</a></li>
+        <li><a href="/groups" id="group">Groups</a></li>
+        <li><a href="/locations" id="location">Locations</a></li>
+        <li><a href="/usecases" id="usecase">Usecases</a></li>
+        {% if request.user.groups.all.0.name == 'Admin' %}
+        <li><a href="/admin" id="admin">Admin</a></li>
+        <form action="/" method="post">
+            <input type="submit" value="Update Numbers">
+            <input type="hidden" name="csrfmiddlewaretoken" id="csrfmiddlewaretoken" value="{{ csrf_token }}">
+            <input type="hidden" name="form_type" id="form_type" value="update_numbers">
+        </form>
+        {% endif %}
+        {% endif %}
+    </ul>
+    
+    {% if messages %}
+    {% for message in messages %}
+    <div class="alert">
+        <span class="closebtn">&times;</span>
+        <span class="alert_text">{{ message }}</span>
+    </div>
+    {% endfor %}
+    {% endif %}
+</html>

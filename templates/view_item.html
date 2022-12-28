@@ -1,0 +1,126 @@
+﻿{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="shortcut icon" type="image/png" href="{% static 'favicon.ico' %}"/>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Inventory Managment - View Item {{ item.name }}</title>
+    <link rel="stylesheet" href="{% static 'style.css' %}">
+    <link rel="stylesheet" href="{% static 'print_item.css' %}">
+    <script src="{% static 'JsBarcode.all.min.js' %}"></script>
+
+    <style>
+        
+        .print {
+            background-color: var(--gridbg);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            
+
+        }
+        .print button {
+            color: var(--text);
+            background-color: var(--sidebar);
+            border: none;
+            border-radius: 2px; 
+            padding: 10px;
+            margin: 10px;
+            font-size: 12pt;
+            font-family: 'Open Sans', sans-serif;
+            
+        }
+.print button:hover {
+    background-color: var(--topbar);
+    transition: 1s;
+}
+    
+    </style>
+</head>
+<body>
+        <header>
+            <h1>Inventory Managment</h1> <h2>View Item {{ item.name }}</h2>
+            {% if user.is_authenticated %}
+            {% include 'header.html' %}
+        {% endif %}
+        </header>
+        <div class="sidebar">
+            {% include "sidebar.html" %}
+        </div>   
+        
+    <script>
+        
+        var close = document.getElementsByClassName("closebtn");
+        var i;
+
+        for (i = 0; i < close.length; i++) {
+            close[i].onclick = function () {
+                var div = this.parentElement;
+                div.style.opacity = "0";
+                setTimeout(function () { div.style.display = "none"; }, 600);
+            }
+        }
+    </script>
+
+    <div class="main">
+        {% if user.is_authenticated %}
+        <div class="main_items">
+            {% for itm in item %}
+            <div class="Fields">
+                <p>{{ itm.created_at }}</p>
+                <table>
+                    <tr>
+                        <th id="name" class="f_type">Item Name: </th>
+                        <th id="name" class="f_value">{{ itm.name }}</th>
+                    </tr><tr>
+                        <th id="id" class="f_type">Item ID: </th>
+                        <th id="id" class="f_value">{{ itm.full_id }}</th>
+                    </tr><tr>
+                        <th id="vemdor" class="f_type">Item Vendor: </th>
+                        <th id="vendor" class="f_value">{{ itm.vendor }}</th>
+                    </tr><tr>
+                        <th id="usecase" class="f_type">Item Usecase: </th>
+                        <th id="usecase" class="f_value">{{ itm.usecase }}</th>
+                    </tr><tr>
+                        <th id="location" class="f_type">Item Location: </th>
+                        <th id="location" class="f_value">{{ itm.location }}</th>
+                    </tr><tr>
+                        <th id="group" class="f_type">Item Group: </th>
+                        <th id="group" class="f_value">{{ itm.group }}</th>
+                    </tr><tr>
+                        <th id="describtion" class="f_type">Item Describtion: </th>
+                        <th id="describtion" class="f_value">{{ itm.description }}</th>
+                    </tr>
+
+                    
+
+                </table>
+            </div>
+            <div class="Barcode">
+                <svg id="barcode"></svg>
+                <script>
+                    JsBarcode("#barcode", "{{ itm.full_id }}");
+                </script>                
+            </div>
+
+            {% if itm.picture %}
+            <div class="itm_image">
+                <img class="main" src="{{ itm.picture.url }}" alt="Image">
+            </div>
+            {% endif %}
+
+            {% endfor %}
+            <div class="print">
+                <button onclick="window.print();return false;">Print</button>
+
+            </div>
+        </div>
+        {% else %}
+
+        {% include "login_include.html" %}
+        {% endif %}
+    </div>
+</body>
+</html>
