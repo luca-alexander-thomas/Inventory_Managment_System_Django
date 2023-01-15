@@ -1,0 +1,1 @@
+['C:\\Users\\Luca\\Documents\\GitHub\\Inventory_Managment_System_Django\\lable.png'] 

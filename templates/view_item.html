@@ -1,55 +1,7 @@
-﻿{% load static %}
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <link rel="shortcut icon" type="image/png" href="{% static 'favicon.ico' %}"/>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Inventory Managment - View Item {{ item.name }}</title>
-    <link rel="stylesheet" href="{% static 'style.css' %}">
-    <link rel="stylesheet" href="{% static 'print_item.css' %}">
-    <script src="{% static 'JsBarcode.all.min.js' %}"></script>
-
-    <style>
-        
-        .print {
-            background-color: var(--gridbg);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            
-
-        }
-        .print button {
-            color: var(--text);
-            background-color: var(--sidebar);
-            border: none;
-            border-radius: 2px; 
-            padding: 10px;
-            margin: 10px;
-            font-size: 12pt;
-            font-family: 'Open Sans', sans-serif;
-            
-        }
-.print button:hover {
-    background-color: var(--topbar);
-    transition: 1s;
-}
-    
-    </style>
-</head>
-<body>
-        <header>
-            <h1>Inventory Managment</h1> <h2>View Item {{ item.name }}</h2>
-            {% if user.is_authenticated %}
-            {% include 'header.html' %}
-        {% endif %}
-        </header>
-        <div class="sidebar">
-            {% include "sidebar.html" %}
-        </div>   
-        
+﻿{% extends 'base.html' %}
+{% load static %}
+<html> 
+    {% block content %}
     <script>
         
         var close = document.getElementsByClassName("closebtn");
@@ -62,10 +14,12 @@
                 setTimeout(function () { div.style.display = "none"; }, 600);
             }
         }
+
+
     </script>
 
-    <div class="main">
-        {% if user.is_authenticated %}
+
+
         <div class="main_items">
             {% for itm in item %}
             <div class="Fields">
@@ -114,13 +68,14 @@
             {% endfor %}
             <div class="print">
                 <button onclick="window.print();return false;">Print</button>
+                <form method="POST">
+                    <input type="hidden" name="csrfmiddlewaretoken" id="csrfmiddlewaretoken" value="{{ csrf_token }}">
+                    <input type="hidden" name="form_type" id="form_type" value="print_lable">
+                    <button>Print Lable</button>
+                </form>
 
             </div>
         </div>
-        {% else %}
-
-        {% include "login_include.html" %}
-        {% endif %}
-    </div>
+    {% endblock %}
 </body>
 </html>

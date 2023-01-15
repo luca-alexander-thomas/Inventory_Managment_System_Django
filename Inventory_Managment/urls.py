@@ -25,6 +25,7 @@ urlpatterns = [
     path('', include('django.contrib.auth.urls'),),
     path('add_item/', views.add_item, name='add_item',),
     path('view_item/<int:id>/', views.view_item, name='view_item',),
+    path('lable/<int:id>/', views.lable, name='lable',),
     path('edit_item/<int:id>/', views.edit_item, name='edit_item',),
     path('vendors/<str:vendor>/', views.vendors, name='vendors',),
     path('vendors/', views.vendors,),
@@ -37,6 +38,7 @@ urlpatterns = [
     path('search/', views.search, name='search',),
     path('login_user/', views.login_user, name='login',),
     path('logout_user/', views.logout_user, name='logout',),
+    path('pdf/', views.GeneratePdf.as_view()),
 
 ]
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

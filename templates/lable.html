@@ -1,0 +1,59 @@
+{% load static %}
+<html lang="en">
+<head>
+    <script src="{% static 'JsBarcode.all.min.js' %}"></script>
+    <meta name="viewport" content="width=89mm, height=36mm"/>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title></title>
+</head>
+<body>
+    <style>
+        @page {
+            width: 89mm;
+            height: 36mm;
+            margin: 3mm; 
+        }
+        body {
+            display: grid;
+            grid-template-columns: auto 20mm;
+            margin: 0px;
+            padding: 10px;
+            width: 89mm;
+            height: 36mm;
+        }
+        svg {
+            padding-top: 13mm;
+            height: 25mm;
+        }
+        .value {
+            font-weight: bold;
+        }
+    
+    </style>
+        {% for itm in item %}
+        <div class="Fields">
+            <p>{{ name }}: <span class="value">{{ itm.name }}</span></p>
+            <p>{{ vendor }}: <span class="value">{{ itm.vendor }}</span></p>
+            <p>{{ location }}: <span class="value">{{ itm.location }}</span></p>
+            <p>{{ group }}: <span class="value">{{ itm.group }}</span></p>
+            <p>{{ usecase }}: <span class="value">{{ itm.usecase }}</span></p>
+        </div>
+        <div class="Barcode">
+            <img src="{{ code }}" alt="{{ itm.full_id }}">
+            <p class="value">{{ itm.full_id }}</p>
+        </div>
+
+        <p>{{ pdf }}</p>
+       <!-- <div class="Barcode">
+            <svg id="barcode"></svg>
+            <script>
+                JsBarcode("#barcode", "{{ itm.full_id }}");
+            </script>
+        </div>-->
+       
+        {% endfor %}
+    
+        </div>
+    </div>
+</body>
+</html>

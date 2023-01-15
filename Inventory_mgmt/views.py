@@ -1,10 +1,16 @@
 import django.shortcuts
-from django.http import HttpResponseRedirect
+import requests
+from django.http import HttpResponseRedirect, HttpResponse
 from django.shortcuts import render, redirect
 from .models import *
 from .functions import *
 from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
+from .functions import print_lable, html_to_pdf
+from django.views.generic import View
+from django.templatetags.static import static
+
+
 
 
 # Create your views here.
@@ -12,11 +18,28 @@ from django.contrib.auth import authenticate, login, logout
 
 def view_item(request, id=None):
     item = Inventory_Item.objects.filter(id=id)
-    return render(request, 'view_item.html', {'item': item})
+    if request.method == 'POST':
+        if request.POST['form_type'] == 'print_lable':
+            code = gen_barcode(item[0].full_id)
+            context = {'item': item, 'name': 'Name', 'vendor': 'Vendor', 'usecase': 'Usecase', 'location': 'Location',
+                       'group': 'Group', 'code': code}
+            img = print_lable('lable.html', context)
+            messages.success(request, img)
+    if type(id) == int:
+        return render(request, 'view_item.html', {'item': item, 'title': 'View Item'})
+    else:
+        messages.error(request, 'Item not found')
+        return render(request, 'view_item.html', {'title': 'View Item'})
+
 
 def edit_item(request, id=None):
-    item = Inventory_Item.objects.filter(id=id)
-    return render(request, 'edit_item.html', {'item': item})
+    if type(id) == int:
+        item = Inventory_Item.objects.filter(id=id)
+        return render(request, 'edit_item.html', {'item': item, 'title': 'Edit Item'})
+    else:
+        messages.error(request, 'Item not found')
+        return render(request, 'edit_item.html', {'title': 'Edit Item'})
+
 
 def home(request):
     all_items = Inventory_Item.objects.all()
@@ -70,10 +93,11 @@ def home(request):
         if request.POST['form_type'] == 'edit_item':
             print('Edit Entry:', request.POST['id'])
             print('Name:', request.POST['form_name'])
+            print('Description:', request.POST['form_describtion'])
             if request.POST['form_picture'] != "": #Check for Picture
-                Inventory_Item.objects.filter(name=request.POST['form_name'], vendor=request.POST['form_vendor'], usecase=request.POST['form_usecase'], location=request.POST['form_location'], group=request.POST['form_group'], description=request.POST['form_describtion'], picture=request.FILES['form_picture'])
+                Inventory_Item.objects.filter(id=request.POST['id']).update(name=request.POST['form_name'], vendor=request.POST['form_vendor'], usecase=request.POST['form_usecase'], location=request.POST['form_location'], group=request.POST['form_group'], description=request.POST['form_describtion'], picture=request.FILES['form_picture'])
             else: #no Picture
-                Inventory_Item.objects.filter(name=request.POST['form_name'], vendor=request.POST['form_vendor'], usecase=request.POST['form_usecase'], location=request.POST['form_location'], group=request.POST['form_group'], description=request.POST['form_describtion'])
+                Inventory_Item.objects.filter(id=request.POST['id']).update(name=request.POST['form_name'], vendor=request.POST['form_vendor'], usecase=request.POST['form_usecase'], location=request.POST['form_location'], group=request.POST['form_group'], description=request.POST['form_describtion'])
     return render(request, 'home.html', {'all_items': all_items, 'title': 'Home'})
 def add_item(request):
     return render(request, 'add_item.html', {'title': 'Add Item'})
@@ -144,8 +168,21 @@ def search(request):
         if request.POST['form_type'] == 'search':
             type = "Searchresult: \"%s\"" % request.POST['search']
             print('Search:', request.POST['search'])
-            search_items = Inventory_Item.objects.filter(name__icontains=request.POST['search'])
-            return render(request, 'items_sorted.html', {'all_items': search_items, 'type': type})
+            search_items_name = Inventory_Item.objects.filter(name__icontains=request.POST['search'])
+            search_items_vendor = Inventory_Item.objects.filter(vendor__icontains=request.POST['search'])
+            search_items_usecase = Inventory_Item.objects.filter(usecase__icontains=request.POST['search'])
+            search_items_location = Inventory_Item.objects.filter(location__icontains=request.POST['search'])
+            search_items_group = Inventory_Item.objects.filter(group__icontains=request.POST['search'])
+            search_items_full_id = Inventory_Item.objects.filter(full_id=request.POST['search'])
+            search_items = search_items_name | search_items_vendor | search_items_usecase | search_items_location | search_items_group | search_items_full_id
+            if search_items.count() == 0:
+                messages.error(request, 'No Items found!')
+                print('No Items found!')
+            if search_items.count() == 1:
+                print(search_items[0].id)
+                return redirect('view_item', id=search_items[0].id)
+
+            return render(request, 'items_sorted.html', {'all_items': search_items, 'title': type})
     else:
         return render(request, 'items_sorted.html')
 
@@ -180,3 +217,21 @@ def logout_user(request):
 
 def view_site(user):
     return user.groups.filter(name__in=['Web_User', 'Admin']).exists()
+
+def lable(request, id):
+    item = Inventory_Item.objects.filter(id=id)
+    code = gen_barcode(item[0].full_id)
+    context = {'item': item, 'name': 'Name', 'vendor': 'Vendor', 'usecase': 'Usecase', 'location': 'Location', 'group': 'Group', 'code': code}
+    img = print_lable('lable.html', context)
+    context.update({'pdf': img})
+    #return HttpResponse(pdf, content_type='application/pdf')
+    return render(request, 'lable.html', context=context)
+
+
+class GeneratePdf(View):
+    def get(self, request, *args, **kwargs):
+        # getting the template
+        pdf = html_to_pdf('result.html')
+
+        # rendering the template
+        return HttpResponse(pdf, content_type='application/pdf')

@@ -38,15 +38,8 @@
                 {% endfor %}
 
         </div>
-        <div class="overlay" id="ConfirmDeleteBox" hidden>
-            <div class="confirm-box-delete">
-                <div onclick="closeConfirmBox('ConfirmDeleteBox')" class="close">&#10006;</div>
-                <h2 id="confirmation">Confirmation</h2>
-                <p id="are_you_sure">Are you sure to delete this Item?</p><br>
-                <button id="yes" class="btn_yes" onclick="delete_item(id_var)">Yes</button>
-                <button id="no" class="btn_no" onclick="closeConfirmBox('ConfirmDeleteBox')">No</button>
-            </div> 
-        </div>
+
+        
 
         <script>
             var close = document.getElementsByClassName("closebtn");
@@ -97,4 +90,15 @@
         </script>
 
 {% endblock content %}
+{% block boxes %}
+   <div class="overlay" id="ConfirmDeleteBox" hidden>
+            <div class="confirm-box-delete">
+                <div onclick="closeConfirmBox('ConfirmDeleteBox')" class="close">&#10006;</div>
+                <h2 id="confirmation">Confirmation</h2>
+                <p id="are_you_sure">Are you sure to delete this Item?</p><br>
+                <button id="yes" class="btn_yes" onclick="delete_item(id_var)">Yes</button>
+                <button id="no" class="btn_no" onclick="closeConfirmBox('ConfirmDeleteBox')">No</button>
+            </div> 
+        </div>
+{% endblock boxes %}
 </html>

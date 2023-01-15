@@ -33,7 +33,12 @@ ALLOWED_HOSTS = [
     '192.168.178.38',
     '*',
 ]
-
+CSRF_TRUSTED_ORIGINS = [
+    'https://localhost',
+    'https://inventory.home.lucathomas.de',
+    'http://localhost',
+    'http://inventory.home.lucathomas.de',
+    ]
 
 # Application definition
 
@@ -136,3 +141,4 @@ STATIC_ROOT = BASE_DIR / 'staticfiles'
 # https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+

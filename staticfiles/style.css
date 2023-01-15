@@ -567,3 +567,26 @@ header .search-container button:hover {
 .closebtn:hover {
     color: rgb(255, 0, 0);
 }
+.print {
+    background-color: var(--gridbg);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+            
+
+}
+.print button {
+    color: var(--text);
+    background-color: var(--sidebar);
+    border: none;
+    border-radius: 2px; 
+    padding: 10px;
+    margin: 10px;
+    font-size: 12pt;
+    font-family: 'Open Sans', sans-serif;
+            
+}
+.print button:hover {
+    background-color: var(--topbar);
+    transition: 1s;
+}

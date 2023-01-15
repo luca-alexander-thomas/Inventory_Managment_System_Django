@@ -1,24 +1,6 @@
-﻿{% load static %}
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Inventory Managment - {{ type }}</title>
-    <link rel="stylesheet" href="{% static 'style.css' %}">
-    <title>Document</title>
-</head>
-    <header>
-        <h1>Inventory Managment</h1> <h2>{{ type }}</h2>
-        {% if user.is_authenticated %}
-    {% include 'header.html' %}
-{% endif %}
-    </header>
-    <div class="sidebar">
-        {% include "sidebar.html" %}
-    </div>
-<body>
+﻿{% extends 'base.html' %}
+{% load static %}
+{% block content %}
     <script>
         var close = document.getElementsByClassName("closebtn");
             var i;
@@ -32,8 +14,8 @@
             }
     </script>
 
-    <div class="main">
-        {% if user.is_authenticated %}
+    
+
         <div class="detailGrid">
             <div class="Grid-Item-desc"><p class="hide_text_gridbg">Control</p></div>
             <div class="Grid-Item-desc"><p id="vendor">{{ title }}</p></div>
@@ -44,11 +26,6 @@
             {% endfor %}
 
         </div>
-        {% else %}
-        
-        {% include "login_include.html" %}
-        {% endif %}
-
-    </div>
+{% endblock %}
 </body>
 </html>
