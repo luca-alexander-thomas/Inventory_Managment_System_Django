@@ -1,0 +1,132 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load i18n %}
+
+<html>
+    
+
+
+
+{% block content %}
+
+        <div class="homeGrid"> <!--Base Class Desktop-->
+            <div class="rectangle">
+                <h4>{% trans 'Add Item' %}</h4>
+                <a href="/add_item/">+</a>
+            </div>
+            <div class="rectangle" style="--rectsize: 20rem;">
+                <h4>{% trans 'Last Item' %}</h4>
+                <div class="innerrect" onclick="view_item('{{ last_item.id }}')">
+                    <h4>{{ last_item.amount}}x  {{ last_item.name }}</h4>
+                    <p>{{ last_item.full_id }}</p>
+                    <p>{% trans 'Vendor' %}: {{ last_item.vendor }}<br>
+                        {% trans 'Group' %}: {{ last_item.group }}<br>
+                        {% trans 'Location' %}: {{ last_item.location }}<br>
+                        {% trans 'Usecase' %}: {{ last_item.usecase }}<br>
+                        {% trans 'Date' %}: {{ last_item.created_at }}<br>
+                    </p>
+                </div>
+            </div>
+            <div class="rectangle" style="--rectsize: 20rem;">
+                <h4>{% trans 'QR Scanner' %}</h4>
+                <div id="my-qr-reader">
+                </div>
+                
+            </div>
+            <div class="rectangle">
+                <h4>{% trans 'Count' %}</h4>
+                <p id="itm_count">{{ item_count }}</p>
+            </div>
+
+            <style>
+                .file-upload {
+                    display: flex;
+                    flex-direction: column;
+                    align-items: center;
+                    font-family: Arial, sans-serif;
+                }
+        
+                .file-upload input[type="file"] {
+                    display: none;
+                }
+        
+                .file-upload label {
+                    background-color: #007BFF;
+                    color: white;
+                    padding: 10px 20px;
+                    border-radius: 5px;
+                    cursor: pointer;
+                }
+        
+                .file-upload span {
+                    margin-top: 10px;
+                    font-size: 14px;
+                    color: #333;
+                }
+            </style>
+        
+            <script>
+                const fileInput = document.getElementById('import_csv');
+                const fileNameDisplay = document.getElementById('file-name');
+        
+                fileInput.addEventListener('change', function () {
+                    fileNameDisplay.textContent = this.files.length > 0 ? this.files[0].name : 'Keine Datei ausgewählt';
+                });
+            </script>
+
+            <div class="rectangle" style="--rectsize: 20rem;">
+                <h4>{% trans 'Import' %}</h4>
+                <form action="/" method="post" enctype="multipart/form-data" style="margin-top: 6rem;">
+                    <input type="hidden" name="csrfmiddlewaretoken" id="csrfmiddlewaretoken" value="{{ csrf_token }}">
+                    <input type="hidden" name="form_type" id="form_type" value="import-csv">
+                    <input type="file" name="import_csv" id="import_csv" accept=".csv,.json,.yaml,.yml">
+                    <button type="submit" style="margin-top: 2rem;">{% trans 'Import' %}</button>
+                </form>
+            </div>
+
+           
+
+        </div>
+
+        <script>
+
+            function domReady(fn) {
+                if (
+                    document.readyState === "complete" ||
+                    document.readyState === "interactive"
+                ) {
+                    setTimeout(fn, 1000);
+                } else {
+                    document.addEventListener("DOMContentLoaded", fn);
+                }
+            }
+
+            domReady(function () {
+
+                // If found you qr code
+                function onScanSuccess(decodeText, decodeResult) {
+                    //alert("You Qr is : " + decodeText, decodeResult);
+                    const arrID = decodeText.split('-');
+                    const id = arrID[2];
+                    view_item(id);
+                }
+
+                let htmlscanner = new Html5QrcodeScanner(
+                    "my-qr-reader",
+                    { fps: 10, qrbos: 250 }
+                );
+                htmlscanner.render(onScanSuccess);
+            });
+
+
+        </script>
+
+
+
+{% endblock content %}
+{% block boxes %}
+    
+   	
+    
+{% endblock boxes %}
+</html>

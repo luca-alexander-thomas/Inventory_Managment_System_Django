@@ -1,0 +1,123 @@
+﻿{% extends 'base.html' %}
+{% load static %}
+{% load i18n %}
+<html>
+{% block content %}
+
+
+<script>
+
+    var close = document.getElementsByClassName("closebtn");
+    var i;
+
+    for (i = 0; i < close.length; i++) {
+        close[i].onclick = function () {
+            var div = this.parentElement;
+            div.style.opacity = "0";
+            setTimeout(function () { div.style.display = "none"; }, 600);
+        }
+    }
+</script>
+
+
+
+
+
+
+{% for itm in item %}
+
+<script>
+    var addbutton = document.getElementsByClassName("addbutton");
+    addbutton[0].innerHTML = "<a class='addbutton' href='/edit_item/{{ itm.id }}'><img src='{% static 'pencil.svg' %}'></a>";
+</script>
+
+<div class="main_items">
+    <div class="Fields">
+        <p id="date_of_create">{{ itm.created_at }}</p>
+        <table>
+            <tr>
+                <th id="name" class="f_type">Item Name: </th>
+                <th id="name" class="f_value">{{ itm.name }}</th>
+            </tr>
+            <tr>
+                <th id="amount" class="f_type">Amount: </th>
+                <th id="amount" class="f_value">{{ itm.amount }}</th>
+            </tr>
+            <tr>
+                <th id="id" class="f_type">Item ID: </th>
+                <th id="id" class="f_value">{{ itm.full_id }}</th>
+            </tr>
+            <tr>
+                <th id="vemdor" class="f_type">Item Vendor: </th>
+                <th id="vendor" class="f_value">{{ itm.vendor }}</th>
+            </tr>
+            <tr>
+                <th id="usecase" class="f_type">Item Usecase: </th>
+                <th id="usecase" class="f_value">{{ itm.usecase }}</th>
+            </tr>
+            <tr>
+                <th id="location" class="f_type">Item Location: </th>
+                <th id="location" class="f_value">{{ itm.location }}</th>
+            </tr>
+            <tr>
+                <th id="group" class="f_type">Item Group: </th>
+                <th id="group" class="f_value">{{ itm.group }}</th>
+            </tr>
+            <tr>
+                <th id="describtion" class="f_type">Item Describtion: </th>
+                <th id="describtion" class="f_value">{{ itm.description }}</th>
+            </tr>
+
+
+
+        </table>
+    </div>
+    <div class="Barcode">
+        <svg id="barcode"></svg>
+        <script>
+            JsBarcode("#barcode", "{{ itm.full_id }}");
+        </script>
+    </div>
+
+    {% if itm.picture %}
+    <div class="itm_image">
+        <img class="main" src="{{ itm.picture.url }}" alt="Image">
+    </div>
+    {% endif %}
+
+    
+    <div class="print">
+        <button onclick="window.print();return false;">{% trans 'Print' %}</button>
+        <form method="POST" action="/view_item/">
+            <input type="hidden" name="csrfmiddlewaretoken" id="csrfmiddlewaretoken" value="{{ csrf_token }}">
+            <input type="hidden" name="form_type" id="form_type" value="item_buttons">
+            <input type="hidden" name="item_id" id="item_id" value="{{ itm.id }}">
+            {% if ps.count >= 2 %}
+            <select name="ps" id="ps">
+            dps:{{ dps.id }}
+            {% for s in ps %}
+            ps:{{ s.id }}
+            {% if s.id == dps.id %}
+                <option selected value="{{ s.id }}">{{ s.name }}</option>
+            {% else %}
+                <option value="{{ s.id }}">{{ s.name }}</option>  
+            {% endif %}          
+            {% endfor %}
+            </select>
+            {% endif %}
+            </select>
+            <input type="number" name="q" id="q" min="1" value="{{ itm.amount }}" inputmode="decimal">
+            <button name="action" value="print_lable">{% trans 'Print Lable' %}</button>
+        </form>
+        <button onclick="showConfirmBox('imexport-options')">{% trans 'Export' %}</button>
+        <button type="button" class="btn_delete" style="background-color: red;" onclick="ConfirmDelete({{ itm.id }})">{% trans 'Delete' %}</button>
+
+
+    </div>
+
+    {% endfor %}
+</div>
+{% endblock %}
+</body>
+
+</html>

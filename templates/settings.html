@@ -1,0 +1,341 @@
+﻿{% extends 'base.html' %}
+{% load static %}
+{% load templatetag %}
+<html>
+{% block content %}
+<style>
+    .Form-Item input[type=text],
+    input[type=number],
+    input[type=password],
+    input[type=email] {
+        width: 40%;
+    }
+
+    h3 {
+        padding-left: 12%;
+    }
+
+    hr {
+        color: var(--sidebar);
+    }
+
+    select {
+        width: 45%;
+    }
+</style>
+<script>
+    function showPassword() {
+        var x = document.getElementById("password");
+        var y = document.getElementById("password2");
+        if (x.type === "password") {
+            x.type = "text";
+        } else {
+            x.type = "password";
+        }
+        if (y.type === "password") {
+            y.type = "text";
+        } else {
+            y.type = "password";
+        }
+    }
+    function validate() {
+        var x = document.getElementById("password");
+        var y = document.getElementById("password2");
+        var e = document.getElementById("error");
+        var b = document.getElementById("button");
+        if (x.value == y.value) {
+            e.innerHTML = "";
+            b.style.display = "block";
+        } else {
+            e.innerHTML = "Passwords do not match";
+            e.style.color = "red"
+            b.style.display = "none";
+        }
+
+    }
+    function copyText(idforinput) {
+        var copyText = document.getElementById(idforinput);
+        copyText.select();
+        copyText.setSelectionRange(0, 99999);
+        navigator.clipboard.writeText(copyText.value);
+    }
+    function update_size() {
+        var papers = {{ papers_json| safe
+    }};
+    var paper_width_field = document.getElementById("paper_width");
+    var paper_height_field = document.getElementById("paper_height");
+    var select_paper_field = document.getElementById("paper");
+    var paper_number = select_paper_field.value;
+
+    var paperwidth = papers[paper_number].width;
+    var paperheight = papers[paper_number].height;
+
+    paper_width_field.value = paperwidth;
+    paper_height_field.value = paperheight;
+
+    
+    }
+</script>
+<div class="main_items">
+    <div class="Fields" id="settings_fields">
+        <h3 id="1">User Settings</h3>
+        <form action="/settings/#1" method="post" enctype="multipart/form-data">
+            <div class="Form-Item">
+                <label for="first_name">First Name</label>
+                <input type="text" id="first_name" name="first_name" value="{{ user.first_name }}">
+            </div>
+            <div class="Form-Item">
+                <label for="last_name">Last Name</label>
+                <input type="text" id="last_name" name="last_name" value="{{ user.last_name }}">
+            </div>
+            <div class="Form-Item">
+                <label for="username">Username</label>
+                <input style="text-transform: lowercase;" type="text" name="username" id="username"
+                    value="{{ user.username }}">
+            </div>
+            <div class="Form-Item">
+                <label for="email">E-Mail Address</label>
+                <input type="email" name="email" id="email" value="{{ user.email }}">
+            </div>
+            <div class="Form-Item">
+                <label for="password">Change Password</label>
+                <input type="password" name="password" id="password" placeholder="New Password" minlength="6"
+                    onblur="validate()">
+                <input style="margin-top: 1rem;" type="password" name="password" id="password2"
+                    placeholder="Retype new Password" onblur="validate()">
+                <input type="checkbox" onclick="showPassword()">Show Password
+            </div>
+            <div class="Form-Item">
+                <input id="button" type="submit" value="Update User">
+            </div>
+            <p id="error"></p>
+            <input type="hidden" name="csrfmiddlewaretoken" id="csrfmiddlewaretoken" value="{{ csrf_token }}">
+            <input type="hidden" name="form_type" id="form_type" value="update_user">
+        </form>
+        <br><br>
+        <hr>
+        <br><br>
+        <h3 id="2">API Settings</h3>
+        <form action="/settings/#2" method="post" enctype="multipart/form-data" id="API_Gen">
+            <p>Via the API, other programmes can access the database and read all entries.</p>
+            {% if api_key %}
+            <p style="color: red;">Please note that if you regenerate the API key, ONLY the NEW API key can be used. All
+                applications using the OLD API
+                key
+                will LOSE their function.</p>
+            {% endif %}
+            <p style="color: red;">With the API key, sensitive data can be accessed from outside without a Login. Please
+                do not give the
+                API key to third parties.</p>
+            <div class="Form-Item">
+                <label for="api-key">API-Key</label>
+                <input type="text" id="api-key" name="api-key" value="{{ api_key }}" readonly>
+                {% if api_key %}
+                <p style="cursor: pointer;" onclick="copyText('api-key')">Copy API-Key</p>
+                {% endif %}
+            </div>
+            <input type="hidden" name="csrfmiddlewaretoken" id="csrfmiddlewaretoken" value="{{ csrf_token }}">
+            <input type="hidden" name="form_type" id="form_type" value="gen-api-key">
+
+            <div class="Form-Item">
+                {% if api_key %}
+            </div>
+        </form>
+        <div class="Form-Item">
+            <button id="regen_button" onclick="showConfirmBox('ConfirmApiBox');"
+                style="background-color: red;">Regenerate API-Key</button>
+        </div>
+        {% else %}
+        <input type="submit" value="Generate API-Key">
+    </div>
+    </form>
+    {% endif %}
+    <br><br>
+    <hr>
+    <br><br>
+    <h3 id="3">Autologin Settings</h3>
+    <form action="/settings/#3" method="post" enctype="multipart/form-data">
+        <p>The Autologin function can be used to automatic login an User on for example an Handheld device</p>
+        {% if auto_login_key %}
+        <p style="color: red;">Please note that if you regenerate the Autologin Key, ONLY the NEW Autologin key can be
+            used. All
+            URLS using the OLD Autologin Key will LOSE their function.</p>
+        {% endif %}
+        <p style="color: red;">With the Autologin Key, sensitive data can be accessed from outside without a Login.
+            Please do not give the
+            Autologin Key to third parties.</p>
+        <div class="Form-Item">
+            <label for="auto_login_key">Autologin Key</label>
+            <input type="text" id="auto_login_key" name="auto_login_key" value="{{ auto_login_key }}" readonly>
+            {% if api_key %}
+            <p style="cursor: pointer;" onclick="copyText('auto_login_key')">Copy Autologin Key</p>
+            {% endif %}
+        </div>
+        <input type="hidden" name="csrfmiddlewaretoken" id="csrfmiddlewaretoken" value="{{ csrf_token }}">
+        <input type="hidden" name="form_type" id="form_type" value="gen-auto-login-key">
+
+        <div class="Form-Item">
+            {% if auto_login_key %}
+        </div>
+    </form>
+    <div class="Form-Item">
+        <button id="regen_button" onclick="showConfirmBox('ConfirmApiBox');" style="background-color: red;">Regenerate
+            Autologin Key</button>
+    </div>
+    {% else %}
+    <input type="submit" value="Generate Autologin Key">
+</div>
+</form>
+{% endif %}
+<br><br>
+<hr>
+<br><br>
+<h3 id="4">Linked Clients</h3>
+<div class="clients-table">
+    <table>
+        <tr>
+            <th>Name</th>
+            <th>OS</th>
+            <th>last Login</th>
+        </tr>
+        {% for client in clients %}
+        <tr>
+            <td>{{ client.name }}</td>
+            <td>{{ client.os }}</td>
+            <td>{{ client.last_login }}</td>
+            <td>
+                <form action="" method="post">
+                    <input type="hidden" name="csrfmiddlewaretoken" id="csrfmiddlewaretoken" value="{{ csrf_token }}">
+                    <input type="hidden" name="form_type" id="form_type" value="delete-client">
+                    <input type="hidden" name="client-hwkey" id="client-hwkey" value="{{ client.hwkey }}">
+                    <button><img src="{% static 'trash.svg' %}" alt="Delete"></button>
+                  </form>
+            </td>
+        </tr>
+        {% endfor %}
+    </table>
+</div>
+
+
+
+
+{% if request.user.groups.all.0.name == 'Admin' %}
+<br><br>
+<hr>
+<br><br>
+<h3 id="5">Printer Settings</h3>
+{% for print_config in print_config_obj %}
+<form action="/settings/#5" method="post" enctype="multipart/form-data">
+    <div class="Form-Item">
+        <label for="printer_name">Printer Name</label>
+        <input type="text" id="printer_name" name="printer_name" value="{{ print_config.printer_name }}">
+    </div>
+    <div class="Form-Item">
+        <label for="paper">Paper</label>
+        <select name="paper" id="paper" onchange="update_size()">
+            {% if print_config.paper_name %}
+            <option value="{{ print_config.paper_name }}" disabled hidden selected>{{ paper_config.paper_name }} -
+            </option>
+            {% else %}
+            <option disabled hidden selected>Select a Paper Typ</option>
+            {% endif %}
+            {% for paper in papers %}
+            {% firstof 'name' as name %}
+            <option value="{{ paper }}">{{ paper }} - {{ papers|get_name:paper }}</option>
+            {% endfor %}
+        </select>
+    </div>
+    <div class="Form-Item">
+        <label for="paper_width">Paper width</label>
+        <input type="number" id="paper_width" name="paper_width" value="{{ print_config.paper_width }}">
+    </div>
+    <div class="Form-Item">
+        <label for="paper_height">Paper height</label>
+        <input type="number" name="paper_height" id="paper_height" value="{{ print_config.paper_height }}">
+    </div>
+    <div class="Form-Item">
+        <label for="paper_orientation">Paper orientation</label>
+        {% if print_config.paper_orientation == 'lamdscape' %}
+        <input type="radio" name="paper_orientation" id="paper_orientation" value="landscape" checked>Landscape</input>
+        {% else %}
+        <input type="radio" name="paper_orientation" id="paper_orientation" value="landscape">Landscape</input>
+        {% endif %}
+        {% if print_config.paper_orientation == 'portrait' %}
+        <input type="radio" name="paper_orientation" id="paper_orientation" value="portrait" checked>Portrait</input>
+        {% else %}
+        <input type="radio" name="paper_orientation" id="paper_orientation" value="portrait">Portrait</input>
+        {% endif %}
+
+
+        <!--<select name="paper_orientation" id="paper_orientation">
+            <option selected disabled hidden value="{{ print_config.paper_orientation }}">{{
+                print_config.paper_orientation }}</option>
+            <option value="landscape">Landscape</option>
+            <option value="portrait">Portrait</option>
+        </select>-->
+    </div>
+
+    <div class="Form-Item">
+        <label for="print_file_name">Printfilename</label>
+        <input type="text" name="print_file_name" id="print_file_name" value="{{ print_config.print_file_name }}">
+    </div>
+    <div class="Form-Item">
+        <input type="submit" value="save">
+    </div>
+    <input type="hidden" name="csrfmiddlewaretoken" id="csrfmiddlewaretoken" value="{{ csrf_token }}">
+    <input type="hidden" name="form_type" id="form_type" value="print_settings">
+</form>
+{% endfor %}
+<br><br>
+<hr>
+<br><br>
+<h3 id="5">Printer Server Settings</h3>
+<div class="clients-table">
+    <table>
+        <tr>
+            <th>Name</th>
+            <th>IP/Hostname</th>
+            <th>Port</th>
+        </tr>
+
+    {% for pserver in print_server %}
+        <tr>
+            <td>{{ pserver.name }}</td>
+            <td>{{ pserver.ip }}</td>
+            <td>{{ pserver.port }}</td>
+            <td>
+                <form action="" method="post">
+                <input type="hidden" name="csrfmiddlewaretoken" id="csrfmiddlewaretoken" value="{{ csrf_token }}">
+                <input type="hidden" name="form_type" id="form_type" value="delete-pserver">
+                <input type="hidden" name="server-uuid" id="server-uuid" value="{{ pserver.uuid }}">
+                <button><img src="{% static 'trash.svg' %}" alt="Delete"></button>
+              </form>
+            </td>
+        </tr>
+
+    {% endfor %}
+    </table>
+</div>
+<br><br>
+<div class="pserver">
+    <h4>Select default Print Server:</h4>
+    <form action="" method="post">
+        <input type="hidden" name="csrfmiddlewaretoken" id="csrfmiddlewaretoken" value="{{ csrf_token }}">
+        <input type="hidden" name="form_type" id="form_type" value="set_pserver">
+        <div class="Form-Item">
+            <select name="pserver" id="pserver">
+                {% for pserver in print_server %}
+                <option value="{{ pserver.uuid }}" {% if pserver.uuid == pserver_def_uuid.uuid %}selected{% endif %}>{{ pserver.name }}</option>
+                {% endfor %}
+            </select>
+            <input type="submit" value="Save">
+        </div>
+    </form>
+</div>
+{% endif %}
+</div>
+</div>
+
+{% endblock content %}
+
+</html>

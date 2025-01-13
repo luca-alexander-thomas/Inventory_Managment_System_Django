@@ -1,0 +1,222 @@
+﻿@media only screen and (max-width: 500px) {
+    .mobileGrid {
+        display: grid;
+        grid-gap: 10px;
+        grid-template-columns: auto min-content auto;
+        padding: 10px;
+        background-color: var(--gridbg);
+        align-content: center;
+    }
+
+    .Grid-Item-desc {
+        font-family: 'Open Sans', 'sans-serif';
+        font-size: 14pt;
+        font-weight: 900;
+        padding: 10px;
+    }
+
+    .Grid-Item-desc p {
+        text-align: center;
+    }
+
+    .Grid-Item-desc button {
+        color: var(--text);
+        background-color: var(--sidebar);
+        border: none;
+        border-radius: 6px;
+        padding: 5px;
+        margin: 10px;
+        font-size: 10pt;
+        font-family: 'Open Sans', sans-serif;
+
+    }
+
+    .Grid-Item-desc button:hover {
+        background-color: var(--topbar);
+        transition: 1s;
+    }
+
+
+    .Grid-Item {
+        margin: 0;
+        border-top: 1px solid var(--gridborder);
+        font-size: 11pt;
+        padding-right: 10px;
+    }
+
+    .Grid-Item p {
+        text-align: right;
+        padding-right: 20px;
+    }
+
+    .main {
+        margin-left: 0;
+    }
+
+    header {
+        background-color: var(--topbar);
+        display: flex;
+        color: #fff;
+        padding-left: 50px;
+        align-self: center;
+        align-items: center;
+        position: fixed;
+        top: 0;
+        width: 100%;
+        height: 75px;
+        z-index: 1;
+    }
+
+    header h2 {
+        font-size: 2rem;
+        margin-left: 10%;
+    }
+
+    header h1,
+    .username,
+    .search-container,
+    .sidebar,
+    .mainGrid {
+        display: none;
+    }
+
+
+    .detailGrid {
+        width: 90%;
+    }
+
+    .topnav {
+        display: none;
+        position: fixed;
+        z-index: 1;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: #000000ce;
+
+    }
+
+    .topnav #myLinks {
+        display: none;
+        list-style: none;
+        text-align: center;
+        position: relative;
+        top: 25%;
+        width: 100%;
+        margin-top: 10%;
+    }
+
+    .topnav a {
+        color: white;
+        padding: 14px 16px;
+        text-decoration: none;
+        font-size: 17px;
+        display: block;
+
+
+    }
+
+    .menu-icon {
+        display: block;
+        color: white;
+        text-decoration: none;
+        font-size: 17px;
+        z-index: 1;
+
+    }
+
+    .icon {
+        background: none;
+        display: none;
+        position: absolute;
+        right: 5;
+        top: 5;
+        width: 50%;
+    }
+
+    .topnav a.icon {
+        display: block;
+    }
+
+    .topnav.responsive {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: #000000dc;
+    }
+
+    .main_items {
+        display: block;
+        align-content: center;
+    }
+
+
+
+    .Barcode {
+        margin-top: 0.5rem;
+    }
+
+    .Barcode svg {
+        display: block;
+        margin: auto;
+    }
+
+    .itm_image {
+        margin-top: 0.5rem;
+    }
+
+    .f_type {
+        font-size: 18px;
+    }
+
+    .f_value {
+        font-size: 14px;
+    }
+
+    .Fields #date_of_create {
+        position: absolute;
+        text-align: right;
+        top: 0.9rem;
+        left: 16rem;
+    }
+
+    .print {
+        margin-top: 0.5rem;
+        padding-top: 16%;
+        padding-bottom: 16%;
+    }
+
+    .Fields {
+        width: 100%;
+        padding-top: 2rem;
+    }
+
+    .itm_image1 {
+        margin-top: 0.5rem
+    }
+
+    .itm_image1 img {
+        width: 100%;
+    }
+    .imexport{
+        top: 10%;
+        left: 10%;
+        right: 10%;
+    }
+    #the_user_name {
+        display: none;
+    }
+    #settings_fields {
+        display: block;
+        width: 100%;
+    }
+
+    .homeGrid {
+        grid-template-columns: 1fr !important;
+        padding: 10px !important;
+        grid-gap: 2rem;
+    }
+}

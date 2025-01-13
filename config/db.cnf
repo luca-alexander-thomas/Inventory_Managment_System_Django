@@ -1,0 +1,8 @@
+﻿# db.cnf
+[client]
+host = 62.108.32.157
+port = 3306
+database = iityjhgj_inventorymgtci
+user = iityjhgj_inventory
+password = DB@inventory20
+default-character-set = utf8

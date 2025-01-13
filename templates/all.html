@@ -1,0 +1,117 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load i18n %}
+
+<html>
+    
+
+
+
+{% block content %}
+
+
+    <style>
+        .check-del input[type="checkbox"] {
+            border: none;
+            
+        }
+
+    </style>
+        
+        <div class="mainGrid">
+                <div class="Grid-Item-desc">
+                    <button onclick="showConfirmBox('imexport-options')">Import/Export</button>
+                    <form action="" method="post">
+                        <input type="hidden" name="csrfmiddlewaretoken" id="csrfmiddlewaretoken" value="{{ csrf_token }}">
+                        <input type="hidden" name="form_type" id="form_type" value="bulkDelete">
+                        <button type="submit" style="background-color: red;">Delete Selected</button>
+                </div>
+                <div class="Grid-Item-desc"><p id="id">{% trans "Id" %}</p></div>
+                <div class="Grid-Item-desc"><p id="amount">{% trans "Amount" %}</p></div>
+                <div class="Grid-Item-desc"><p id="name">{% trans "Name" %}</p></div>
+                <div class="Grid-Item-desc"><p id="group">{% trans "Group" %}</p></div>
+                <div class="Grid-Item-desc"><p id="vendor">{% trans "Vendor" %}</p></div>
+                <div class="Grid-Item-desc"><p id="usecase">{% trans "Usecase" %}</p></div>
+                <div class="Grid-Item-desc"><p id="location">{% trans "Location" %}</p></div>
+                <div class="Grid-Item-desc"><p id="created_at">{% trans "Created at" %}</p></div>
+
+
+        
+
+                {% for row in all_items %}
+                    <div class="Grid-Item">
+                        <input class="check-del" type="checkbox" name="{{ row.id }}" id="{{ row.id }}" value="{{ row.id }}">
+                    
+                        <button type="button" class="btn_delete" onclick="ConfirmDelete({{ row.id }})"><img src="{% static 'trash.svg' %}"></button>
+                        <button type="button" class="btn_edit" onclick="edit_item({{ row.id }})"><img src="{% static 'pencil.svg' %}"></button>
+                        <button type="button" class="btn_view" onclick="view_item({{ row.id }})"><img src="{% static 'eye.svg' %}"></button>
+                    </div>
+                    <div class="Grid-Item"><p>{{ row.full_id }}</p></div>
+                    <div class="Grid-Item"><p>{{ row.amount }}</p></div>
+                    <div class="Grid-Item"><p>{{ row.name }}</p></div>
+                    <div class="Grid-Item"><p>{{ row.group }}</p></div>
+                    <div class="Grid-Item"><p>{{ row.vendor }}</p></div>
+                    <div class="Grid-Item"><p>{{ row.usecase }}</p></div>
+                    <div class="Grid-Item"><p>{{ row.location }}</p></div>
+                    <div class="Grid-Item"><p>{{ row.created_at }}</p></div>
+                {% endfor %}
+                    </form>
+
+        </div>
+
+        <div class="mobileGrid">
+            <div class="Grid-Item-desc">
+                
+                <button onclick="showConfirmBox('imexport-options')">{% trans "Import/Export" %}</button>
+            </div>
+            <div class="Grid-Item-desc">
+                <p id="id">{% trans "Id" %}</p>
+            </div>
+            <div class="Grid-Item-desc">
+                <p id="name">{% trans "Name" %}</p>
+            </div>
+
+            {% for row in all_items %}
+            <div class="Grid-Item">
+                <button class="btn_delete" onclick="ConfirmDelete({{ row.id }})"><img src="{% static 'trash.svg'%}"></button>
+                <button class="btn_edit" onclick="edit_item({{ row.id }})"><img src="{% static 'pencil.svg' %}"></button>
+                <button class="btn_view" onclick="view_item({{ row.id }})"><img src="{% static 'eye.svg' %}"></button>
+            </div>
+            <div class="Grid-Item">
+                <p>{{ row.full_id }}</p>
+            </div>
+            <div class="Grid-Item">
+                <p>{{ row.name }}</p>
+            </div>
+            {% endfor %}
+
+        </div>
+
+        
+            
+        </div>
+
+        
+
+        <script>
+            $('#show').on('click', function () {
+                    $('.imexport').show();
+                    $(this).hide();
+                })
+
+                $('#close').on('click', function () {
+                    $('.imexport').hide();
+                    $('#show').show();
+                })
+
+        </script>
+
+
+
+{% endblock content %}
+{% block boxes %}
+    
+   	
+    
+{% endblock boxes %}
+</html>

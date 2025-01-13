@@ -1,0 +1,953 @@
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@500&display=swap');
+
+:root {
+    --bg: #fff;
+    --text: #000000;
+    --sidebar: #38b04e;
+    --sidebar_secondary: #38b04e67;
+    --topbar: #4a79b4;
+    --topbar_secondary: #426da1;
+    --gridbg: #ececec;
+    --gridborder: #00000069;
+    --inputbg: #f1f1f1;
+}
+
+@media (prefers-color-scheme: dark) {
+    :root {
+        --bg: rgb(26, 26, 26);
+        --text: #ffffff;
+        --sidebar: #38b04ea6;
+        --topbar: #3d5b80;
+        --topbar_secondary: #496b94;
+        --gridbg: #292929;
+        --gridborder: #ffffff69;
+        --inputbg: #353535;
+    }
+}
+
+
+body {
+    background-color: var(--bg);
+    color: var(--text);
+    font-family: 'Open Sans', sans-serif;
+    font-size: 14px;
+    line-height: 1.42857143;
+    margin: 0;
+    position: relative;
+    margin-top: 75px;
+}
+
+.main {
+    margin-left: 15%;
+}
+
+header {
+    background-color: var(--topbar);
+    display: flex;
+    color: #fff;
+    padding-left: 50px;
+    align-self: center;
+    align-items: center;
+    position: fixed;
+    top: 0;
+    width: 100%;
+    height: 75px;
+    z-index: 1;
+}
+
+header h2 {
+    padding-left: 40px;
+}
+
+header .username {
+    position: fixed;
+    display: inline-block;
+    top: 10px;
+    right: 10px;
+    font-size: 12pt;
+    background-color: var(--topbar_secondary);
+    padding-right: 1rem;
+    padding-left: 1rem;
+    border-radius: 0.4rem;
+}
+
+
+
+.username:hover {
+    cursor: pointer;
+}
+
+.username_menu {
+    background-color: var(--topbar);
+    border-radius: 0.4rem;
+    display: none;
+    position: relative;
+    min-width: 160px;
+    box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+    z-index: 0;
+}
+
+.username_menu a {
+    color: var(--text);
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+}
+
+.username_menu_show {
+    display: block;
+    margin-bottom: 1rem;
+}
+
+
+
+
+.btn_logout {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    display: flex;
+    right: 10px;
+    position: fixed;
+    top: 12px;
+    border: 0.0px solid #fff;
+    cursor: pointer;
+}
+
+.btn_logout svg path {
+    fill: #fff;
+}
+
+.btn_logout svg {
+    margin: auto;
+    width: auto;
+    height: 60%;
+}
+
+.addbutton {
+    background-color: #38b04e;
+    color: #fff;
+    border: unset;
+    text-align: center;
+    text-decoration: none;
+    display: flex;
+    cursor: pointer;
+    border-radius: 50%;
+    font-size: 3rem;
+    width: 4rem;
+    height: 4rem;
+    position: fixed;
+    right: 1rem;
+    bottom: 1rem;
+    justify-content: center;
+    margin: auto;
+}
+
+.addbutton img {
+    width: 4rem;
+    height: 4rem;
+    color: #fff;
+    border: unset;
+    text-align: center;
+}
+
+.addbutton:hover {
+    background-color: rgba(46, 138, 59, 0.47);
+}
+
+.addbutton img:hover {
+    scale: 130%;
+}
+
+.mainGrid {
+    display: grid;
+    grid-gap: 10px;
+    grid-template-columns: auto min-content min-content auto auto auto auto auto auto;
+    padding: 10px;
+    font-size: 14px;
+    background-color: var(--gridbg);
+    align-content: center;
+}
+
+.detailGrid {
+    display: grid;
+    grid-gap: 10px;
+    grid-template-columns: 15% 83%;
+    padding: 10px;
+    font-size: 14px;
+    background-color: var(--gridbg);
+    align-content: center;
+    width: 50%;
+    border: 8px solid var(--bg);
+    border-radius: 1rem;
+}
+
+.Grid-Item img {
+    width: 32px;
+    height: 32px;
+}
+
+.Grid-Item-desc img {
+    width: 64px;
+    height: 32px;
+}
+
+.btn_delete {
+    background-color: #ff0000;
+    border: none;
+    border-radius: 15%;
+    cursor: pointer;
+}
+
+.btn_deleteall {
+    background-color: #ff0000;
+    border: none;
+    border-radius: 0.4rem;
+    color: #ffffff;
+    text-align: center;
+}
+
+.btn_delete img path {
+    fill: #ffffff;
+}
+
+.btn_edit {
+    background-color: #38b04e;
+    border: none;
+    border-radius: 15%;
+    cursor: pointer;
+}
+
+.btn_view {
+    background-color: #4a79b4;
+    border: none;
+    border-radius: 15%;
+    cursor: pointer;
+}
+
+.btn_view_a {
+    background-color: #4a79b4;
+    padding: 0.25rem;
+    text-decoration: none;
+    font-weight: bold;
+    border-radius: 0.4rem;
+    cursor: pointer;
+    height: 2.5rem;
+    width: 2.5rem;
+}
+
+.Grid-Item-desc {
+    font-family: 'Open Sans', 'sans-serif';
+    font-size: 14pt;
+    font-weight: 900;
+    padding: 10px;
+}
+
+.Grid-Item-desc p {
+    text-align: center;
+}
+
+.Grid-Item-desc button {
+    color: var(--text);
+    background-color: var(--sidebar);
+    border: none;
+    border-radius: 0.4rem;
+    padding: 10px;
+    margin: 10px;
+    font-size: 12pt;
+    font-family: 'Open Sans', sans-serif;
+
+}
+
+.Grid-Item-desc button:hover {
+    background-color: var(--topbar);
+    transition: 1s;
+}
+
+
+.Grid-Item {
+    margin: 0;
+    border-top: 1px solid var(--gridborder);
+    font-size: 11pt;
+    padding-right: 10px;
+    align-content: center;
+}
+
+.Grid-Item p {
+    text-align: right;
+    padding-right: 20px;
+}
+
+.sidebar {
+    width: 15%;
+    max-width: 15rem;
+    min-width: 8rem;
+    height: 100%;
+    display: flex;
+    background-color: var(--sidebar);
+    position: fixed;
+    align-content: center;
+
+}
+
+
+.sidebar ul {
+    margin: 0;
+    color: whitesmoke;
+    list-style-type: none;
+    font-family: 'Open Sans', sans-serif;
+    font-size: 16px;
+    font-weight: 700;
+    text-align: center;
+    padding-left: 20%;
+}
+
+.sidebar ul li {
+    margin-top: 25px;
+    margin-bottom: 25px;
+}
+
+.sidebar ul li:hover {
+    color: #000000;
+}
+
+.sidebar ul li a {
+    text-decoration: none;
+    color: currentColor;
+    cursor: pointer;
+
+}
+
+.confirm-box-delete {
+    background-color: var(--gridbg);
+    color: var(--text);
+    text-align: center;
+    text-decoration: none;
+    font-size: 12px;
+    border-radius: 0.4rem;
+    width: 22rem;
+    height: 15rem;
+    position: absolute;
+    top: 20rem;
+    left: 50rem;
+}
+
+.confirm-box-delete p {
+    font-size: 16px;
+    font-weight: 700;
+    margin-top: 2rem;
+    color: #ff0000;
+}
+
+.btn_no {
+    background-color: #38b04e;
+    color: #fff;
+    border: unset;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    cursor: pointer;
+    border-radius: 0.4rem;
+    font-size: 12px;
+    width: 4rem;
+    height: 2.5rem;
+    margin-top: 2rem;
+}
+
+.btn_yes {
+    background-color: #ff0000;
+    color: #fff;
+    border: unset;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    cursor: pointer;
+    border-radius: 0.4rem;
+    font-size: 12px;
+    width: 4rem;
+    height: 2.5rem;
+}
+
+.overlay-delete {
+    position: fixed;
+    top: 0;
+    right: 0;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.8);
+    z-index: 2;
+    cursor: default;
+}
+
+.close {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    cursor: pointer;
+    font-size: 1.3rem;
+}
+
+.close:hover {
+    color: red;
+}
+
+.ElementViewBox {
+    background-color: var(--bg);
+    color: var(--text);
+    text-decoration: none;
+    font-size: 12px;
+    border-radius: 0.4rem;
+    width: 60%;
+    height: 60%;
+    position: absolute;
+    top: 20%;
+    left: 20%;
+}
+
+.Form-Item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin-top: 30px;
+}
+
+.Form-Item input[type=submit], #regen_button {
+    background-color: #4CAF50;
+    border: none;
+    border-radius: 0.4rem;
+    cursor: pointer;
+    color: white;
+    padding: 10px 20px;
+    margin: 8px 0;
+
+
+}
+
+.Form-Item input[type=submit]:hover {
+    background-color: #45a049;
+}
+
+.Form-Item input[type=text],
+input[type=number],
+input[type=password], input[type=email], select {
+    width: 90%;
+    padding: 9px 20px;
+    border-radius: 0.4rem;
+    border: none;
+    background-color: var(--inputbg);
+    color: var(--text);
+
+}
+
+.Form-Item input[type=textarea] {
+    width: 90%;
+    padding: 20px 20px;
+    border-radius: 0.4rem;
+    border: none;
+    background-color: var(--inputbg);
+    color: var(--text);
+
+}
+
+.Form-Item input[type=text]:focus,
+input[type=number]:focus,
+input[type=textarea]:focus,
+input[type=password]:focus, input[type=email] {
+    background-color: var(--inputbg);
+    outline: 3px solid var(--sidebar);
+}
+
+input[type=file]::file-selector-button {
+    margin-right: 20px;
+    border: none;
+    background: var(--sidebar);
+    padding: 10px 20px;
+    border-radius: 0.4rem;
+    color: #fff;
+    cursor: pointer;
+    transition: background .2s ease-in-out;
+}
+
+input[type=file]::file-selector-button:hover {
+    background: var(--topbar);
+}
+
+.main_items {
+    display: grid;
+    grid-gap: 10px;
+    grid-template-columns: auto auto;
+    padding: 10px;
+    font-size: 14px;
+    align-content: center;
+}
+
+.Fields {
+    grid-column: 1;
+    grid-row: 1/3;
+    padding: 10px;
+    border: 1px solid var(--bg);
+    border-radius: 0.4rem;
+    background-color: var(--gridbg);
+    align-items: center;
+    display: flex;
+
+}
+
+.Barcode {
+    grid-column: 2;
+    grid-row: 1;
+    padding: 10px;
+    border: 1px solid var(--bg);
+    border-radius: 0.4rem;
+    background-color: var(--gridbg);
+    align-items: center;
+}
+
+#barcode {
+    transform: none !important;
+}
+
+.Barcode svg {
+    display: block;
+    margin: auto;
+}
+
+.itm_image {
+    grid-column: 2;
+    grid-row: 2;
+    padding: 10px;
+    border: 1px solid var(--bg);
+    border-radius: 0.4rem;
+    background-color: var(--gridbg);
+    align-self: center;
+}
+
+.itm_image img {
+    display: block;
+    margin: auto;
+    width: 75%;
+}
+
+.f_type {
+    font-weight: 900;
+    font-size: 20px;
+    text-align: right;
+}
+
+.f_value {
+    font-size: 19px;
+    text-align: left;
+    padding: 10px;
+
+}
+
+.Fields table {
+    margin: auto;
+}
+
+.Fields p {
+    position: relative;
+    bottom: 44%;
+    left: 1%;
+    font-weight: 900;
+}
+
+.Fields form {
+    margin: auto;
+}
+
+.itm_image1 {
+    grid-column: 2;
+    grid-row: 1;
+    padding: 10px;
+    border: 1px solid black;
+    border-radius: 0.4rem;
+    background-color: var(--gridbg);
+    align-self: center;
+}
+
+.hide_text_gridbg {
+    color: var(--gridbg);
+}
+
+header .search-container {
+    float: right;
+    position: absolute;
+    top: 7px;
+    right: 300px;
+}
+
+header input[type=text] {
+    background-color: var(--topbar_secondary);
+    padding: 10px;
+    margin-top: 10px;
+    font-size: 17px;
+    border: none;
+    color: white;
+    border-radius: 0.4rem;
+
+}
+
+header input[type=text]:focus {
+    outline: 0px solid;
+    width: 30rem;
+}
+
+header .search-container button {
+    float: right;
+    padding: 10px 10px;
+    margin-top: 10px;
+    margin-right: 16px;
+    background: var(--sidebar);
+    font-size: 17px;
+    border: none;
+    cursor: pointer;
+    border-radius: 0.4rem;
+    width: 41px;
+    height: 41px;
+
+}
+
+header .search-container button img {
+    width: 25px;
+    height: 25px;
+}
+
+header .search-container button:hover {
+    background: var(--sidebar_secondary);
+}
+
+.alert {
+    opacity: 1;
+    transition: opacity 0.6s;
+    padding: 20px;
+    background-color: #eb8532b4;
+    color: white;
+    margin-bottom: 15px;
+    position: absolute;
+    bottom: 75px;
+    left: 10px;
+    width: 300px;
+    height: 20px;
+    border-radius: 0.4rem;
+
+}
+
+.alert_text {
+    padding-left: 10px;
+}
+
+.closebtn {
+    margin-left: 15px;
+    color: white;
+    font-weight: bolder;
+    float: right;
+    line-height: 200px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.closebtn:hover {
+    color: rgb(255, 0, 0);
+}
+
+.print {
+    background-color: var(--gridbg);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+
+}
+
+.print button {
+    color: var(--text);
+    background-color: var(--sidebar);
+    border: none;
+    border-radius: 0.4rem;
+    padding: 10px;
+    margin: 10px;
+    font-size: 12pt;
+    font-family: 'Open Sans', sans-serif;
+
+}
+
+.print button:hover {
+    background-color: var(--topbar);
+    transition: 1s;
+}
+
+.print input[type=number] {
+    width: 2rem;
+    padding: 0.5rem;
+    
+}
+
+.mobileGrid,
+.mobile-only,
+.topnav,
+.menu-icon {
+    display: none;
+}
+
+.imexport {
+    margin: auto;
+    width: 60%;
+    padding: 20px;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    background-color: var(--bg);
+    color: var(--text);
+    text-align: center;
+    text-decoration: none;
+    font-size: 12px;
+    border-radius: 0.4rem;
+    width: auto;
+    height: auto;
+    position: absolute;
+    top: 30%;
+    left: 35%;
+    right: 35%;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.imexport button,
+.imexport input[type="submit"] {
+    color: var(--text);
+    background-color: var(--sidebar);
+    border: none;
+    border-radius: 0.4rem;
+    padding: 10px;
+    margin: 10px;
+    font-size: 12pt;
+    font-family: 'Open Sans', sans-serif;
+}
+
+.imexport button:hover {
+    background-color: var(--sidebar-hover);
+    transition: 1s;
+}
+
+#settings_fields {
+    display: block;
+    width: 60%;
+    
+}
+
+
+.clients-table table{
+    width: 80%;
+    padding-bottom: 3rem;
+}
+.clients-table table th {
+    height: 3rem;
+    text-align: center;    
+}
+.clients-table table td {
+    height: 2.2rem;
+    text-align: left;
+    border-bottom: 0.1px solid var(--text);
+}
+.clients-table button {
+    background-color: var(--gridbg);
+    border: none;
+}
+.clients-table img {
+    background-color: red;
+    border: none;
+    border-radius: 0.4rem;
+    height: 2.5rem;
+    width: 2.5rem;
+    transition: 1s;
+    cursor: pointer;
+}
+.clients-table img:hover {
+    background-color: var(--gridbg);
+    height: 3rem;
+    width: 3rem;    
+}
+
+.pserver h4 {
+    text-align: center;
+}
+
+
+/* Style for QR Scanner */
+
+#my-qr-reader {
+    border: none !important;
+}
+
+#my-qr-reader img[alt="Info icon"] {
+    display: none;
+}
+
+#my-qr-reader img[alt="Camera based scan"] {
+    width: 100px !important;
+    height: 100px !important;
+}
+
+button {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 0.25em;
+    color: var(--text);
+    font-size: 15px;
+    cursor: pointer;
+    margin-bottom: 10px;
+    background-color: var(--sidebar);
+    transition: 0.3s background-color;
+}
+
+button:hover {
+    filter: brightness(50%);
+    transition: 0.5s;
+}
+
+#html5-qrcode-anchor-scan-type-change {
+    text-decoration: none !important;
+}
+
+video {
+    width: 85% !important;
+    margin: auto !important;
+}
+
+#my-qr-reader__dashboard_section div div  {
+    margin: auto auto 1px !important;
+    padding: 3px !important;
+}
+
+#my-qr-reader__dashboard_section div div div {
+    color: var(--text);
+}
+
+#my-qr-reader__scan_region img {
+    display: none !important;
+}
+
+#my-qr-reader__scan_region {
+    min-height: 50px !important;
+}
+
+#html5-qrcode-anchor-scan-type-change {
+    color: var(--sidebar);
+}
+
+/* Style for QR Scanner end */
+
+.homeGrid {
+    display: grid;
+    padding: 2rem;
+    grid-template-columns: 25% 25% 25% 25%;
+    font-size: 18px;
+    background-color: var(--gridbg);
+    align-content: center;
+    width: 90%;
+    border: 8px solid var(--bg);
+    border-radius: 1rem;
+}
+.rectangle {
+    --rectsize: 15rem;
+    width: var(--rectsize);
+    height: var(--rectsize);
+    background-color: var(--inputbg);
+    border: 1px solid var(--inputbg);
+    border-radius: 1.5rem;
+    text-align: center;
+    margin: auto;
+}
+.rectangle h4 {
+    margin-top: 0.5rem;
+    
+}
+.rectangle a {
+    font-size: 5rem;
+    color: var(--text);
+    text-decoration: none;
+    background-color: var(--sidebar);
+    width: 60%;
+    height: 60%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 15%;
+    margin: auto;
+}
+
+.rectangle .innerrect {
+    color: var(--text);
+    font-size: 15px;
+    background-color: var(--sidebar);
+    width: 80%;
+    height: 70%;
+    margin: auto;
+    border-radius: 1rem;
+    cursor: pointer;
+    align-content: center;
+
+}
+
+.rectangle .innerrect:hover, .rectangle a:hover {
+    background-color: var(--topbar);
+    transition: 0.5s;
+}
+
+
+.btn_view_rename {
+    height: 2.5rem;
+    width: 2.5rem;
+    margin: auto;
+    padding: 0.2rem;
+}
+.inpt_view_rename {
+    width: 30%;
+    display: none;
+    float: right;
+    padding: 9px 20px;
+    border-radius: 0.4rem;
+    border: none;
+    background-color: var(--inputbg);
+    color: var(--text);
+}
+.inpt_view_rename:focus {
+    background-color: var(--inputbg);
+    outline: 3px solid var(--sidebar);
+}
+
+#itm_count {
+    width: 60%;
+    height: 60%;
+    background-color: var(--sidebar);
+    margin: auto;
+    font-size: 3rem;
+    font-weight: bolder;
+    align-content: center;
+    border-radius: 15%;
+  }
+
+  .cat-item {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+}
+.btn_view_close {
+    background-color: #f44336;
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: auto;
+    margin-right: 1rem;
+    cursor: pointer;
+    border-radius: 15%;
+    display: none;
+}

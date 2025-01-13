@@ -1,0 +1,163 @@
+{% extends 'base.html' %}
+{% load static %}
+<html>
+    {% block boxes %}
+    
+    {% endblock boxes %}
+{% block content %}
+
+<style>
+    @media only screen and (max-width: 500px)   {
+        header h2 {
+            font-size: medium;date_of_create"
+        }
+        }
+</style>
+<div class="mainGrid">
+    <div class="Grid-Item-desc">
+        <button onclick="showConfirmBox('imexport-options')">Export</button>
+    </div>
+    <div class="Grid-Item-desc">
+        <p id="id">Id</p>
+    </div>
+    <div class="Grid-Item-desc">
+        <p id="amount">Amount</p>
+    </div>
+    <div class="Grid-Item-desc">
+        <p id="name">Name</p>
+    </div>
+    <div class="Grid-Item-desc">
+        <p id="group">Group</p>
+    </div>
+    <div class="Grid-Item-desc">
+        <p id="vendor">Vendor</p>
+    </div>
+    <div class="Grid-Item-desc">
+        <p id="usecase">Usecase</p>
+    </div>
+    <div class="Grid-Item-desc">
+        <p id="location">Location</p>
+    </div>
+    <div class="Grid-Item-desc">
+        <p id="created_at">Created at</p>
+    </div>
+
+
+
+
+
+    {% for row in all_items %}
+    <div class="Grid-Item">
+        <button class="btn_delete" onclick="ConfirmDelete({{ row.id }})"><img src="{% static 'trash.svg'%}"></button>
+        <button class="btn_edit" onclick="edit_item({{ row.id }})"><img src="{% static 'pencil.svg' %}"></button>
+        <button class="btn_view" onclick="view_item({{ row.id }})"><img src="{% static 'eye.svg' %}"></button>
+    </div>
+    <div class="Grid-Item">
+        <p>{{ row.full_id }}</p>
+    </div>
+    <div class="Grid-Item">
+        <p>{{ row.amount }}</p>
+    </div>
+    <div class="Grid-Item">
+        <p>{{ row.name }}</p>
+    </div>
+    <div class="Grid-Item">
+        <p>{{ row.group }}</p>
+    </div>
+    <div class="Grid-Item">
+        <p>{{ row.vendor }}</p>
+    </div>
+    <div class="Grid-Item">
+        <p>{{ row.usecase }}</p>
+    </div>
+    <div class="Grid-Item">
+        <p>{{ row.location }}</p>
+    </div>
+    <div class="Grid-Item">
+        <p>{{ row.created_at }}</p>
+    </div>
+    {% endfor %}
+
+</div>
+
+<div class="mobileGrid">
+    <div class="Grid-Item-desc">
+        <form action="/" method="POST">
+            <input type="hidden" name="csrfmiddlewaretoken" id="csrfmiddlewaretoken" value="{{ csrf_token }}">
+            <input type="hidden" name="form_type" id="form_type" value="export_csv">
+            <button value="export_csv">Export CSV</button>
+        </form>
+    </div>
+    <div class="Grid-Item-desc">
+        <p id="id">Id</p>
+    </div>
+    <div class="Grid-Item-desc">
+        <p id="name">Name</p>
+    </div>
+
+    {% for row in all_items %}
+    <div class="Grid-Item">
+        <button class="btn_delete" onclick="ConfirmDelete({{ row.id }})"><img src="{% static 'trash.svg' %}"></button>
+        <button class="btn_edit" onclick="edit_item({{ row.id }})"><img src="{% static 'pencil.svg' %}"></button>
+        <button class="btn_view" onclick="view_item({{ row.id }})"><img src="{% static 'eye.svg' %}"></button>
+    </div>
+    <div class="Grid-Item">
+        <p>{{ row.full_id }}</p>
+    </div>
+    <div class="Grid-Item">
+        <p>{{ row.name }}</p>
+    </div>
+    {% endfor %}
+
+</div>
+
+
+
+<script>
+    var close = document.getElementsByClassName("closebtn");
+    var i;
+
+    for (i = 0; i < close.length; i++) {
+        close[i].onclick = function () {
+            var div = this.parentElement;
+            div.style.opacity = "0";
+            setTimeout(function () { div.style.display = "none"; }, 600);
+        }
+    }
+    function delete_item(id) {
+        let itemName = 'delete_item';
+        let token = '{{ csrf_token }}';
+        let formData = new FormData();
+        formData.append('id_to_delete', id);
+        formData.append('form_type', itemName);
+        formData.append('csrfmiddlewaretoken', token);
+        fetch('/', {
+            method: 'POST',
+            body: formData
+        }).then(() => {
+            closeConfirmBox('ConfirmDeleteBox');
+            window.location.reload();
+        });
+    }
+    function view_item(id) {
+        location.href = '/view_item/' + id;
+    }
+    function edit_item(id) {
+        location.href = '/edit_item/' + id;
+    }
+    let id_var = 0;
+    function ConfirmDelete(id) {
+        id_var = id;
+        showConfirmBox("ConfirmDeleteBox");
+    }
+    function showConfirmBox(name) {
+        document.getElementById(name).hidden = false;
+    }
+    function closeConfirmBox(name) {
+        document.getElementById(name).hidden = true;
+    }
+
+</script>
+{% endblock content %}
+
+</html>

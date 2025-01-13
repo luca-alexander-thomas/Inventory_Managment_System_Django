@@ -1,0 +1,131 @@
+dymo8:
+  '99010':
+    height: 28
+    name: Addresse
+    width: 89
+  '99012':
+    height: 36
+    name: Large Address
+    width: 89
+  '11352':
+    height: 25
+    width: 54
+    name: Large Return Address
+  '99014':
+    height: 54
+    name: Shipping
+    width: 101
+  '1933088':
+    height: 59
+    width: 102
+    name: Large Shipping
+  '1933087':
+    height: 59
+    width: 190
+    name: Confirmation
+  '99019': 
+    height: 59
+    width: 190
+    name: Large Lever Arch
+  '99018':
+    height: 38
+    width: 190
+    name: Small Lever Arch
+  '99017':
+    height: 12
+    width: 50
+    name: File Folder
+  'S0929110':
+    height: 62
+    width: 106
+    name: Name Badge Non-Adhesive
+  '11356':
+    height: 41
+    width: 89
+    name: Small Name Badge
+  '99015':
+    height: 54
+    width: 70
+    name: Large
+  '99016':
+    height: 46
+    width: 78
+    name: Video Top
+  '11354':
+    height: 32
+    width: 57
+    name: Medium
+  '1933083':
+    height: 25
+    width: 25
+    name: Square
+  '11353':
+    height: 13
+    width: 25
+    name: Extra Small
+  '11355':
+    height: 19
+    width: 51
+    name: Small
+  'S0929100':
+    height: 51
+    width: 89
+    name: Business Card
+standart:
+  A4:
+    height: 297
+    name: A4
+    width: 210
+  A5:
+    height: 210
+    name: A5
+    width: 148
+  A6:
+    height: 148
+    name: A6
+    width: 105
+  A7:
+    height: 105
+    name: A7
+    width: 74
+  A8:
+    height: 74
+    name: A8
+    width: 52
+  A9:
+    height: 52
+    name: A9
+    width: 37
+  B4:
+    height: 353
+    name: B4
+    width: 250
+  B5:
+    height: 250
+    name: B5
+    width: 176
+  B6:
+    height: 176
+    name: B6
+    width: 125
+  B7:
+    height: 125
+    name: B7
+    width: 88
+  B8:
+    height: 88
+    name: B8
+    width: 62
+  B9:
+    height: 62
+    name: B9
+    width: 44
+  letter:
+    height: 279
+    name: Letter
+    width: 216
+  legal:
+    height: 356
+    name: Legal
+    width: 216
+  

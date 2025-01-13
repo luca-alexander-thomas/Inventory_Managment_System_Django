@@ -1,0 +1,91 @@
+﻿{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+    <script>
+        var close = document.getElementsByClassName("closebtn");
+            var i;
+
+            for (i = 0; i < close.length; i++) {
+                close[i].onclick = function () {
+                    var div = this.parentElement;
+                    div.style.opacity = "0";
+                    setTimeout(function () { div.style.display = "none"; }, 600);
+                }
+            }
+        function renameCategory(id) {
+            var field = document.getElementById(id);
+            var edit_field = document.getElementById(id + "_edit");
+            var button = document.getElementById(id + "_button");
+            var close = document.getElementById(id + "_close");
+            var img = button.querySelector("img");
+            if (field.style.display === "none") {
+                field.style.display = "block";
+                edit_field.style.display = "none";
+                close.style.display = "none";
+                img.src = "{% static 'pencil.svg' %}";
+            
+                let formData = new FormData();
+                formData.append('catName', id);
+                formData.append('newName', edit_field.value);
+                formData.append('form_type', 'renameCategory');
+                formData.append('csrfmiddlewaretoken', '{{ csrf_token }}');
+                fetch('', {
+                    method: 'POST',
+                    body: formData
+                }).then(() => {
+                    window.location.reload();
+                });
+            }
+            else {
+                field.style.display = "none";
+                edit_field.style.display = "block";
+                close.style.display = "block";
+                img.src = "{% static 'save.svg' %}";
+            }
+
+        }
+        function closeEdit(id) {
+            var field = document.getElementById(id);
+            var edit_field = document.getElementById(id + "_edit");
+            var button = document.getElementById(id + "_button");
+            var img = button.querySelector("img");
+            var close = document.getElementById(id + "_close");
+            field.style.display = "block";
+            edit_field.style.display = "none";
+            close.style.display = "none";
+            img.src = "{% static 'pencil.svg' %}";
+        }
+    </script>
+
+    <style>
+        
+
+    </style>
+
+        <div class="detailGrid">
+            <div class="Grid-Item-desc"><!--<p class="hide_text_gridbg">Control</p>--></div>
+            <div class="Grid-Item-desc"><p id="vendor">{{ title }}</p></div>
+            {% for item in all_detail_items %}
+            <div class="Grid-Item">
+                <!--<a class="btn_view_a" href="/{{ layout }}/{{ item }}/">
+                    <img src="{% static 'eye.svg' %}">
+                </a>-->
+                <button class="btn_view_a" onclick="window.location.href = '{{ item }}/';"><img src="{% static 'eye.svg' %}"></button>
+                <button class="btn_view_rename" onclick="renameCategory('{{ item }}')" id="{{item}}_button">
+                    <img src="{% static 'pencil.svg' %}">
+                </button>
+            </div>
+            <div class="Grid-Item">
+                <div class="cat-item">
+                    <button class="btn_view_close" id="{{ item }}_close" onclick="closeEdit('{{ item }}')">X</button>
+                    <p id="{{ item }}">{{ item }}</p>
+                    <input class="inpt_view_rename" type="text" id="{{ item }}_edit" value="{{ item }}">
+                </div>
+                
+            </div>
+            {% endfor %}
+
+        </div>
+{% endblock %}
+</body>
+</html>

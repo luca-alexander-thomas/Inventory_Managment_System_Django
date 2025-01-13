@@ -1,0 +1,120 @@
+﻿﻿{% extends 'base.html' %}
+{% load static %}
+<html>
+    
+    {% block content %}
+    <style>
+        .form-container {
+            display: flex;
+            align-items: center;
+        }
+        .form-container select {
+            margin-left: -30px;
+            position: relative;
+            z-index: 1;
+            width: 30px;
+        }
+      
+    </style>
+    <script>
+        function updateInput(inputId) {
+            var select = document.getElementById(inputId + '_select');
+            var input = document.getElementById(inputId);
+            input.value = select.value;
+        }
+    </script>
+
+        <div class="main_items">
+            <div class="Fields">
+                <form action="/" method="post" enctype="multipart/form-data">
+                    <div class="Form-Item">
+                        <label for="form_name">Name:</label><br>
+                        <input type="text" id="form_name" name="form_name">
+                    </div>
+                    <div class="Form-Item">
+                        <label for="form_amount">Amount:</label><br>
+                        <input type="number" id="form_amount" name="form_amount" min="1" value="1">
+                    </div>
+                    <div class="Form-Item">
+                        <label for="form_vendor">Vendor:</label><br>
+                        <div class="form-container">
+                            <input type="text" id="form_vendor" name="form_vendor" list="VendorList">
+                            <select id="form_vendor_select" onchange="updateInput('form_vendor')">
+                                {% for vendor in vendors_list %}
+                                <option value="{{ vendor }}">{{ vendor }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <datalist id="VendorList">
+                            {% for vendor in vendors_list %}
+                            <option value="{{ vendor }}">{{ vendor }}</option>
+                            {% endfor %}
+                        </datalist>
+                    </div>
+                    <div class="Form-Item">
+                        <label for="form_group">Group:</label><br>
+                        <div class="form-container">
+                            <input type="text" id="form_group" name="form_group" list="GroupList">
+                            <select id="form_group_select" onchange="updateInput('form_group')">
+                                {% for group in groups_list %}
+                                <option value="{{ group }}">{{ group }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <datalist id="GroupList">
+                            {% for group in groups_list %}
+                            <option value="{{ group }}">{{ group }}</option>
+                            {% endfor %}
+                        </datalist>
+                    </div>
+                    <div class="Form-Item">
+                        <label for="form_location">Location:</label><br>
+                        <div class="form-container">
+                            <input type="text" id="form_location" name="form_location" list="LocationList">
+                            <select id="form_location_select" onchange="updateInput('form_location')">
+                                {% for location in locations_list %}
+                                <option value="{{ location }}">{{ location }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <datalist id="LocationList">
+                            {% for location in locations_list %}
+                            <option value="{{ location }}">{{ location }}</option>
+                            {% endfor %}
+                        </datalist>
+                    </div>
+                    <div class="Form-Item">
+                        <label for="form_usecase">Usecase:</label><br>
+                        <div class="form-container">
+                            <input type="text" id="form_usecase" name="form_usecase" list="UsecaseList">
+                            <select id="form_usecase_select" onchange="updateInput('form_usecase')">
+                                {% for usecase in usecases_list %}
+                                <option value="{{ usecase }}">{{ usecase }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <datalist id="UsecaseList">
+                            {% for usecase in usecases_list %}
+                            <option value="{{ usecase }}">{{ usecase }}</option>
+                            {% endfor %}
+                        </datalist>
+                    </div>
+                    <div class="Form-Item">
+                        <label for="form_describtion">Describtion:</label><br>
+                        <input type="textarea" name="form_describtion" id="form_describtion">
+                    </div>
+                    <div class="Form-Item">
+                        <label for="form_picture">Upload Image:</label>
+                        <input type="file" name="form_picture" id="form_picture">
+                    </div>
+                    <div class="Form-Item">
+                        <input type="submit" value="Save">
+                    </div>
+                    <input type="hidden" name="csrfmiddlewaretoken" id="csrfmiddlewaretoken" value="{{ csrf_token }}">
+                    <input type="hidden" name="form_type" id="form_type" value="additem">
+                </form>
+            </div>
+        </div>
+    {% endblock content %}
+    
+</html>
