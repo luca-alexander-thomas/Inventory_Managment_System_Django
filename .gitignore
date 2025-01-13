@@ -1,2 +1,9 @@
 node_modules
 db.sqlite3
+cert.pem
+key.pem
+Inventory_Managment_System_Django.code-workspace
+.vscode
+.idea
+__pycache__
+remote_print.log
